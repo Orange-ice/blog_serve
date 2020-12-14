@@ -12,6 +12,13 @@ module.exports = appInfo => {
    **/
   const config = exports = {};
 
+  // 关闭 egg.js 内置的 csrf 安全校验
+  config.security = {
+    csrf: {
+      enable: false
+    }
+  };
+
   // use for cookie sign key, should change to your own and keep security
   config.keys = appInfo.name + '_1607862460572_466';
 
