@@ -1,6 +1,6 @@
 const Controller = require('egg').Controller
 const shajs = require('sha.js')
-const hash = raw => shajs('256').update(raw).digest('hex')
+const hash = raw => shajs('sha256').update(raw).digest('hex')
 
 function toInt(str) {
   if(typeof str === 'number') return str

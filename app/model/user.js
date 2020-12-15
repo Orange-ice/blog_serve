@@ -1,7 +1,7 @@
 'use strict'
 
 const shajs = require('sha.js')
-const hash = raw => shajs('256').update(raw).digest('hex')
+const hash = raw => shajs('sha256').update(raw).digest('hex')
 
 module.exports = app => {
   const { TEXT, STRING, INTEGER, DATE } = app.Sequelize
