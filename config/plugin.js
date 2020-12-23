@@ -16,3 +16,9 @@ exports.sequelize = {
   enable: true,
   package: 'egg-sequelize'
 };
+
+// 鉴权jwt插件
+exports.jwt = {
+  enable: true,
+  package: "egg-jwt"
+};
