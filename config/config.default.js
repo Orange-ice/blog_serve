@@ -28,6 +28,16 @@ module.exports = appInfo => {
   config.jwt = {
     secret: 'burt1998'
   }
+  config.onerror = {
+    all(err, ctx) {
+      // 在此处定义对所有响应类型的错误处理方法
+      ctx.body = JSON.stringify({
+        status: 'fail',
+        msg: err.code
+      })
+      ctx.status = 500
+    }
+  }
   // add your user config here
   const userConfig = {
     // myAppName: 'egg',
