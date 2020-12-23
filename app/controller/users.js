@@ -11,7 +11,12 @@ function toInt(str) {
 class UserController extends Controller {
   async show() {
     const ctx = this.ctx
-    let user = await ctx.model.User.findByPk(toInt(ctx.params.id), {attributes: {exclude: 'password'}})
+    console.log(ctx.state.user)
+    if(ctx.state.user.iat + 10 < Date().now/1000){
+      ctx.body = { status: 'fail', msg: 'token已过期' }
+      return
+    }
+    let user = await ctx.model.User.findByPk(toInt(ctx.state.user.id), {attributes: {exclude: 'password'}})
     if(!user) {
       ctx.body = { status: 'fail', msg: '用户不存在' }
       return
@@ -20,7 +25,7 @@ class UserController extends Controller {
   }
 
   async register() {
-    const ctx = this.ctx
+    const {ctx, app} = this
     const { username, password } = ctx.request.body
     console.log('登录测试', username, password)
     const [user, created] = await ctx.model.User.findOrCreate({
@@ -31,16 +36,20 @@ class UserController extends Controller {
         avatar: `https://avatars.dicebear.com/api/human/${username}.svg?mood[]=happy`
       }
     })
-    let plainUser = user.toJSON()
     if(created) {
-      ctx.body = { status: 'ok', msg: '注册成功', data: plainUser }
+      const token = app.jwt.sign({
+        username,
+        id: user.id,
+        exp: Date.now() + 1000*3600*24*7
+      }, app.config.jwt.secret)
+      ctx.body = { status: 'ok', msg: '注册成功', data: user, token }
       return
     }
     ctx.body = { status: 'fail', msg: '用户已存在' }
   }
 
   async login() {
-    const ctx = this.ctx
+    const {ctx, app} = this
     const { username, password } = ctx.request.body
     const user = await ctx.model.User.findOne({
       where: { username, password: hash(password) },
@@ -50,7 +59,12 @@ class UserController extends Controller {
       ctx.body = { status: 'fail', msg: '用户不存在或者密码不正确' }
       return
     }
-    ctx.body = { status: 'ok', msg: '登录成功', data:user }
+    const token = app.jwt.sign({
+      username,
+      id: user.id,
+      exp: Date.now() + 1000*3600*24*7
+    }, app.config.jwt.secret)
+    ctx.body = { status: 'ok', msg: '登录成功', data:user, token }
   }
 
   async destory() {
