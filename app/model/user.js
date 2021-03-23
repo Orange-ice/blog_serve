@@ -17,5 +17,8 @@ module.exports = app => {
       }
     }
   })
+  User.associate = function () {
+    app.model.User.hasMany(app.model.Blog, {foreignKey: 'id'})
+  }
   return User
 }

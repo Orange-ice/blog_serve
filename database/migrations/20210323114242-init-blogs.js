@@ -9,7 +9,8 @@ module.exports = {
         title: STRING,
         content: TEXT,
         created_at: DATE,
-        updated_at: DATE
+        updated_at: DATE,
+        user: INTEGER
       });
   },
 
