@@ -18,10 +18,15 @@ class UserController extends Controller {
     }
     let user = await ctx.model.User.findByPk(toInt(ctx.state.user.id), {attributes: {exclude: 'password'}})
     if(!user) {
+      ctx.status = 403
       ctx.body = { status: 'fail', msg: '用户不存在' }
       return
     }
-    ctx.body = { status: 'ok', msg: '查找成功', data: user }
+    let blogs = await ctx.model.Blog.findAll({
+      where: {user: toInt(ctx.state.user.id)},
+      attributes: { exclude: 'user' }
+    })
+    ctx.body = { status: 'ok', msg: '查找成功', data: { user, blogs } }
   }
 
   async register() {

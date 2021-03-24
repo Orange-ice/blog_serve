@@ -14,4 +14,5 @@ module.exports = app => {
   router.get('/auth', jwt, controller.users.show)
 
   router.post('/blog', jwt, controller.blogs.create)
+  router.get('/blog', jwt, controller.blogs.list)
 };
