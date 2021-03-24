@@ -24,16 +24,11 @@ class BlogController extends Controller {
   async detail() {}
   async create() {
     const { ctx, app } = this
-    // if(ctx.state.user.iat + 10 < Date().now/1000){
-    //   ctx.body = { status: 'fail', msg: 'token已过期' }
-    //   return
-    // }
     const { title, content } = ctx.request.body
     console.log('博客创建', title, content)
     console.log(ctx.state.user)
     const [blog, created] = await ctx.model.Blog.findOrCreate({
       where: { title },
-      // attributes: { exclude: 'content' },
       defaults: {
         content,
         user: ctx.state.user.id
