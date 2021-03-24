@@ -23,7 +23,9 @@ module.exports = appInfo => {
   config.keys = appInfo.name + '_1607862460572_466';
 
   // add your middleware config here
-  config.middleware = [];
+  config.middleware = ['auth'];
+  // 无需验证token有效性的路由
+  config.whiteRouter = ['/auth/register', '/auth/login']
 
   config.jwt = {
     secret: 'burt1998'
