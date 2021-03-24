@@ -1,6 +1,5 @@
 'use strict';
 
-// const {Op} = require('sequelize')
 const Controller = require('egg').Controller
 
 class BlogController extends Controller {
