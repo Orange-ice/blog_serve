@@ -11,6 +11,8 @@ module.exports = (options, app) => {
         const user = await app.jwt.verify(token, app.config.jwt.secret)
         await next()
       }catch (error) {
+        console.log('---')
+        console.log(error)
         ctx.status = 401
         ctx.body = { status: 'fail', msg: 'token失效' }
       }

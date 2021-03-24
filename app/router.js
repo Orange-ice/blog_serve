@@ -19,4 +19,6 @@ module.exports = app => {
   router.get('/blog', jwt, controller.blogs.list)
   // 查看某一篇博客
   router.get('/blog/:blogId', jwt, controller.blogs.show)
+  // 修改博客内容
+  router.patch('/blog/:blogId', jwt, controller.blogs.update)
 };
