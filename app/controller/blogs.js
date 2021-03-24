@@ -20,7 +20,20 @@ class BlogController extends Controller {
     })
     ctx.body = { status: 'ok', msg: '查询成功', data: { blogs: rows, total: count } }
   }
-  async detail() {}
+  async show() {
+    const { ctx,app } = this
+    const blogId = ctx.request.url.slice(6)
+    const blog = await ctx.model.Blog.findByPk(ctx.helper.toInt(blogId), {
+      attributes: { exclude: 'user' },
+      include: { model: app.model.User, attributes: {exclude: 'password'} }
+    })
+    if (!blog) {
+      ctx.status = 403
+      ctx.body = { status: 'fail', msg: '博客不存在' }
+      return
+    }
+    ctx.body = { status: 'ok', msg: '查询成功', data: blog }
+  }
   async create() {
     const { ctx, app } = this
     const { title, content } = ctx.request.body

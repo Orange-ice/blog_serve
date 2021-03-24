@@ -17,4 +17,6 @@ module.exports = app => {
   router.post('/blog', jwt, controller.blogs.create)
   // 获取所有博客
   router.get('/blog', jwt, controller.blogs.list)
+  // 查看某一篇博客
+  router.get('/blog/:blogId', jwt, controller.blogs.show)
 };
