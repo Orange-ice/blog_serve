@@ -21,4 +21,6 @@ module.exports = app => {
   router.get('/blog/:blogId', jwt, controller.blogs.show)
   // 修改博客内容
   router.patch('/blog/:blogId', jwt, controller.blogs.update)
+  // 删除博客
+  router.delete('/blog/:blogId', jwt, controller.blogs.destroy)
 };

@@ -56,7 +56,7 @@ class BlogController extends Controller {
   }
 
   async update() {
-    const { ctx, app } = this
+    const { ctx } = this
     const blogId = ctx.request.url.slice(6)
     const { title, content } = ctx.request.body
     const flag = await ctx.model.Blog.findOne({
@@ -71,7 +71,19 @@ class BlogController extends Controller {
     await blog.update({ title, content })
     ctx.body = { status: 'ok', msg: '修改成功', data: blog }
   }
-  async delete () {}
+
+  async destroy () {
+    const { ctx } = this
+    const blogId = ctx.request.url.slice(6)
+    const blog = await ctx.model.Blog.findByPk(ctx.helper.toInt(blogId))
+    if (!blog) {
+      ctx.status = 403
+      ctx.body = { status: 'fail', msg: '博客不存在' }
+      return
+    }
+    await blog.destroy()
+    ctx.body = { status: 'ok', msg: '删除成功' }
+  }
 }
 
 module.exports = BlogController

@@ -72,7 +72,7 @@ class UserController extends Controller {
     ctx.body = { status: 'ok', msg: '登录成功', data:user, token }
   }
 
-  async destory() {
+  async destroy() {
     const ctx = this.ctx
     const id = toInt(ctx.params.id)
     const user = await ctx.model.User.findByPk(id)
