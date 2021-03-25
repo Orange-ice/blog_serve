@@ -47,7 +47,7 @@ class UserController extends Controller {
         id: user.id,
         exp: Date.now() + 1000*3600*24*7
       }, app.config.jwt.secret)
-      ctx.body = { status: 'ok', msg: '注册成功', data: user, token }
+      ctx.body = { status: 'ok', msg: '注册成功', data: { user, token } }
       return
     }
     ctx.body = { status: 'fail', msg: '用户已存在' }
@@ -69,7 +69,7 @@ class UserController extends Controller {
       id: user.id,
       exp: Date.now() + 1000*3600*24*7
     }, app.config.jwt.secret)
-    ctx.body = { status: 'ok', msg: '登录成功', data:user, token }
+    ctx.body = { status: 'ok', msg: '登录成功', data:{ user, token } }
   }
 
   async destroy() {
