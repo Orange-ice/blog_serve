@@ -38,7 +38,7 @@ class UserController extends Controller {
       attributes: { exclude: 'password' },
       defaults: {
         password,
-        avatar: `https://avatars.dicebear.com/api/human/${username}.svg?mood[]=happy`
+        avatar: `https://ui-avatars.com/api/?background=random&name=${username}`
       }
     })
     if(created) {
