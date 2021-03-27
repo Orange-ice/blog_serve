@@ -14,13 +14,13 @@ module.exports = app => {
   router.get('/auth', jwt, controller.users.show)
 
   // 创建博客
-  router.post('/blog', jwt, controller.blogs.create)
+  router.post('/blog/create', jwt, controller.blogs.create)
   // 获取所有博客
-  router.get('/blog', jwt, controller.blogs.list)
+  router.get('/blog', controller.blogs.list)
   // 查看某一篇博客
   router.get('/blog/:blogId', jwt, controller.blogs.show)
   // 修改博客内容
-  router.patch('/blog/:blogId', jwt, controller.blogs.update)
+  router.patch('/blog/edit/:blogId', jwt, controller.blogs.update)
   // 删除博客
-  router.delete('/blog/:blogId', jwt, controller.blogs.destroy)
+  router.delete('/blog/delete/:blogId', jwt, controller.blogs.destroy)
 };

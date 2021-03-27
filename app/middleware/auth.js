@@ -1,7 +1,7 @@
 module.exports = (options, app) => {
   return async function (ctx, next) {
     const whiteRouter = app.config.whiteRouter
-    const url = ctx.url
+    const url = ctx.url.split('?')[0]
     // 判断当前路由是否需要验证 token
     const flag = whiteRouter.includes(url)
     if (!flag) {
