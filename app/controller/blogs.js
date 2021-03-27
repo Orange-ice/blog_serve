@@ -6,13 +6,19 @@ class BlogController extends Controller {
   async list() {
     const { ctx, app } = this
     const Op = app.Sequelize.Op
-    const { limit, page, title } = ctx.request.body
+    const { limit, page, title } = ctx.queries
+    // ctx.queries =>  { limit: [ '10' ], page: [ '1' ], title: [ '' ] }
+    if(!limit[0]&&!page[0]){
+      ctx.status = 400
+      ctx.body = { status: 'fail', msg: '请求错误' }
+      return
+    }
     const { count, rows } = await ctx.model.Blog.findAndCountAll({
-      limit: limit,
-      offset: limit * (page - 1),
+      limit: limit[0],
+      offset: limit[0] * (page[0] - 1),
       where: {
         title: {
-          [Op.substring]: `${title}`
+          [Op.substring]: `${title[0]}`
         }
       },
       attributes: { exclude: 'user' },
@@ -38,12 +44,13 @@ class BlogController extends Controller {
 
   async create() {
     const { ctx, app } = this
-    const { title, content } = ctx.request.body
+    const { title, description ,content } = ctx.request.body
     console.log('博客创建', title, content)
     console.log(ctx.state.user)
     const [blog, created] = await ctx.model.Blog.findOrCreate({
       where: { title },
       defaults: {
+        description,
         content,
         user: ctx.state.user.id
       }
@@ -58,7 +65,7 @@ class BlogController extends Controller {
   async update() {
     const { ctx } = this
     const blogId = ctx.request.url.slice(6)
-    const { title, content } = ctx.request.body
+    const { title, description, content } = ctx.request.body
     const flag = await ctx.model.Blog.findOne({
       where: { title }
     })
@@ -68,7 +75,7 @@ class BlogController extends Controller {
       return
     }
     const blog = await ctx.model.Blog.findByPk(ctx.helper.toInt(blogId))
-    await blog.update({ title, content })
+    await blog.update({ title, description, content })
     ctx.body = { status: 'ok', msg: '修改成功', data: blog }
   }
 

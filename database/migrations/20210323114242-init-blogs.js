@@ -7,6 +7,7 @@ module.exports = {
       {
         id: { type: INTEGER, primaryKey: true, autoIncrement: true },
         title: STRING,
+        description: TEXT,
         content: TEXT,
         created_at: DATE,
         updated_at: DATE,
