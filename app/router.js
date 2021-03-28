@@ -11,7 +11,7 @@ module.exports = app => {
   router.post('/auth/register', controller.users.register)
   router.post('/auth/login', controller.users.login)
   // 查询用户信息，及博客信息
-  router.get('/auth', jwt, controller.users.show)
+  router.get('/auth/:id', jwt, controller.users.show)
 
   // 创建博客
   router.post('/blog/create', jwt, controller.blogs.create)

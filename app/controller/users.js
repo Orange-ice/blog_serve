@@ -16,14 +16,15 @@ class UserController extends Controller {
       ctx.body = { status: 'fail', msg: 'token已过期' }
       return
     }
-    let user = await ctx.model.User.findByPk(toInt(ctx.state.user.id), {attributes: {exclude: 'password'}})
+    console.log(ctx.params)
+    let user = await ctx.model.User.findByPk(toInt(ctx.params.id), {attributes: {exclude: 'password'}})
     if(!user) {
       ctx.status = 403
       ctx.body = { status: 'fail', msg: '用户不存在' }
       return
     }
     let blogs = await ctx.model.Blog.findAll({
-      where: {user: toInt(ctx.state.user.id)},
+      where: {user: toInt(ctx.params.id)},
       attributes: { exclude: 'user' }
     })
     ctx.body = { status: 'ok', msg: '查找成功', data: { user, blogs } }
@@ -61,6 +62,7 @@ class UserController extends Controller {
       attributes: { exclude: ['password'] }
     })
     if(!user){
+      ctx.status = 403
       ctx.body = { status: 'fail', msg: '用户不存在或者密码不正确' }
       return
     }

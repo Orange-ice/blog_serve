@@ -64,7 +64,7 @@ class BlogController extends Controller {
 
   async update() {
     const { ctx } = this
-    const blogId = ctx.request.url.slice(6)
+    const blogId = ctx.params.blogId
     const { title, description, content } = ctx.request.body
     const flag = await ctx.model.Blog.findOne({
       where: { title }
@@ -81,7 +81,7 @@ class BlogController extends Controller {
 
   async destroy () {
     const { ctx } = this
-    const blogId = ctx.request.url.slice(6)
+    const blogId = ctx.params.blogId
     const blog = await ctx.model.Blog.findByPk(ctx.helper.toInt(blogId))
     if (!blog) {
       ctx.status = 403
