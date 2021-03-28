@@ -14,7 +14,7 @@ module.exports = (options, app) => {
         console.log('---')
         console.log(error)
         ctx.status = 401
-        ctx.body = { status: 'fail', msg: 'token失效' }
+        ctx.body = { status: 'fail', msg: error.message }
       }
     } else {
       await next()
