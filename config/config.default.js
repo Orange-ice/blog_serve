@@ -35,7 +35,7 @@ module.exports = appInfo => {
       enable: false,
       ignoreJSON: true
     },
-    domainWhiteList: ['http://localhost:8080', 'http://orange_ice.gitee.io/online-blog', 'https://orange_ice.gitee.io/online-blog'], //配置白名单
+    domainWhiteList: ['http://localhost:8080', 'http://orange_ice.gitee.io', 'https://orange_ice.gitee.io'], //配置白名单
   }
   config.cors = {
     credentials: true, // 允许跨域请求携带cookies
